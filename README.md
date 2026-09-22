@@ -1,18 +1,35 @@
-## Getting Started
+Tetris em Java 🎮
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Um clone do clássico Tetris desenvolvido em Java, com foco em rodar em ambientes Linux.
 
-## Folder Structure
+📋 Sobre o Projeto
 
-The workspace contains two folders by default, where:
+Este projeto tem como objetivo recriar o jogo Tetris utilizando Java puro (ou com bibliotecas gráficas como Swing/JavaFX), proporcionando uma experiência leve, multiplataforma e de código aberto. O desenvolvimento é voltado principalmente para usuários de Linux, mas o código deve funcionar em qualquer sistema com a JVM instalada.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+🎯 Funcionalidades Planejadas
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+    □ Movimentação das peças (esquerda, direita, baixo)
+    □ Rotação de peças
+    □ Sistema de pontuação
+    □ Níveis de dificuldade progressivos
+    □ Detecção de linhas completas e limpeza
+    □ Game Over e reinício
+    □ Interface gráfica simples e responsiva
+    □ Controles via teclado
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+🛠️ Tecnologias
 
-## Dependency Management
+    Java (JDK 17 ou superior recomendado)
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+    Swing ou JavaFX para a interface gráfica
+
+    Maven ou Gradle (opcional, para gerenciamento de dependências)
+
+📦 Pré-requisitos
+
+Certifique-se de ter instalado:
+# Verificar versão do Java
+java --version
+
+# Verificar JDK
+javac --version
