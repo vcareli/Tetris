@@ -5,7 +5,8 @@ public class App {
 		JFrame frame = new JFrame("Deby Tetris");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(new Painel());
-		frame.pack();			// Ajusta o tamanho de acordo com as configuracoes do Painel
+		frame.pack();					//Ajusta o tamanho de acordo com as configuracoes do Painel
+		frame.setResizable(false);		//Impede redimensionamento
 		frame.setVisible(true);
 	}
 }
