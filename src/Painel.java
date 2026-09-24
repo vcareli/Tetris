@@ -1,20 +1,21 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
-public class Painel extends JPanel {
+public class Painel extends JPanel implements KeyListener {
 	private final int TAM_CEL = 30;
 	private final int ALTURA_TELA = 600;
 	private final int LARGURA_TELA = 300;
 
-	private Tetramino bloco;
-	private int[][] matrix;
+	private Tetramino bloco = new Tetramino();
 
 	public Painel() {
 		this.setPreferredSize(new Dimension(LARGURA_TELA, ALTURA_TELA));
-		this.matrix = new int[ALTURA_TELA / TAM_CEL][LARGURA_TELA / TAM_CEL];
-		//matrix[19][4] = 5;
+		setFocusable(true);
+		addKeyListener(this);
 	}
 
 	@Override
@@ -29,25 +30,22 @@ public class Painel extends JPanel {
 		for (int i = 0; i <= 20; i++) {
 			g.drawLine(0, i * TAM_CEL, LARGURA_TELA, i * TAM_CEL);
 		}
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (matrix[i][j] != 0) {
-					Color base = getColorTetraminos(matrix[i][j]);
-					bloco.bloco3D(g, j * TAM_CEL, i * TAM_CEL, base, TAM_CEL);
-				}
-			}
-		}
+		//Desenho Tetramino
+		bloco.desenhar(g, TAM_CEL);
 	}
 
-	private Color getColorTetraminos(int tipo) {
-		switch (tipo) {
-			case 1: return Color.MAGENTA;
-			case 2: return Color.BLUE;
-			case 3: return Color.BLACK;
-			case 4: return Color.RED;
-			case 5: return Color.GREEN;
-			case 6: return Color.WHITE;
-			default: return null;
+	public void keyTyped(KeyEvent e) {}
+
+	public void keyReleased(KeyEvent e) {}
+
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			bloco.moverBaixo();
+		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			bloco.moverDir();
+		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			bloco.moverEsq();
 		}
+		repaint();
 	}
 }
