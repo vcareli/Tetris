@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Dimension;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class Painel extends JPanel implements KeyListener {
 	private final int TAM_CEL = 30;
@@ -11,11 +12,16 @@ public class Painel extends JPanel implements KeyListener {
 	private final int LARGURA_TELA = 300;
 
 	private Tetramino bloco = new Tetramino();
+	Timer timer = new Timer(500, e -> {
+		bloco.moverBaixo();
+		repaint();
+	});
 
 	public Painel() {
 		this.setPreferredSize(new Dimension(LARGURA_TELA, ALTURA_TELA));
 		setFocusable(true);
 		addKeyListener(this);
+		timer.start();
 	}
 
 	@Override

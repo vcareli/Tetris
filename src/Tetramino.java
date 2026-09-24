@@ -80,7 +80,7 @@ public class Tetramino {
 		this.coluna_X++;
 	}
 
-	public static Color getColorTetraminos(int tipo) {
+	/*public static Color getColorTetraminos(int tipo) {
 		switch (tipo) {
 			case 1: return Color.MAGENTA;
 			case 2: return Color.BLUE;
@@ -90,7 +90,7 @@ public class Tetramino {
 			case 6: return Color.WHITE;
 			default: return null;
 		}
-	}
+	}*/
 
 	public void bloco3D(Graphics g, int x, int y, Color base, int tam_cel) {
 		Color claro = base.brighter().brighter(); // luz
