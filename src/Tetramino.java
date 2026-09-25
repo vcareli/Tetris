@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Tetramino {
 	private final int BORDA = 3; // espessura do relevo 3D
@@ -57,7 +58,67 @@ public class Tetramino {
 	}
 
 	public Tetramino() {
-		this(formatoO, Color.BLUE);				//A sobrecarga de construtor chama o principal passando somente formato
+		int[][] forma;
+		Color c;
+		Random random = new Random();
+		int formatoNum = random.nextInt(7);
+		switch (formatoNum) {
+			case 1:
+				forma = formatoT;
+				break;
+			case 2:
+				forma = formatoO;
+				break;
+			case 3:
+				forma = formatoJ;
+				break;
+			case 4:
+				forma = formatoL;
+				break;
+			case 5:
+				forma = formatoS;
+				break;
+			case 6:
+				forma = formatoZ;
+				break;
+			default:
+				forma = formatoI;
+				break;
+		}
+		int corNum = random.nextInt(11);
+		switch (corNum) {
+			case 1:
+				c = Color.WHITE;
+				break;
+			case 2:
+				c = Color.RED;
+				break;
+			case 3:
+				c = Color.GREEN;
+				break;
+			case 4:
+				c = Color.BLUE;
+				break;
+			case 5:
+				c = Color.YELLOW;
+				break;
+			case 6:
+				c = Color.CYAN;
+				break;
+			case 7:
+				c = Color.MAGENTA;
+				break;
+			case 8:
+				c = Color.ORANGE;
+				break;
+			case 9:
+				c = Color.PINK;
+				break;
+			default:
+				c = Color.GRAY;
+				break;
+		}
+		this(forma, c);				//A sobrecarga de construtor chama o principal passando somente formato
 	}
 
 	public int[][] getFormato() {return formato;}
@@ -68,29 +129,64 @@ public class Tetramino {
 
 	public Color getColor() {return cor;}
 
-	public void moverBaixo() {
-		this.linha_Y++;
+	private boolean podeDescer() {
+		for (int i = 0; i < formato.length; i++) {
+			for (int j = 0; j < formato[i].length; j++) {
+				if (formato[i][j] != 0) {
+					if (linha_Y + i + 1 > 19) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private boolean podeEsq() {
+		for (int i = 0; i < formato.length; i++) {
+			for (int j = 0; j < formato[i].length; j++) {
+				if (formato[i][j] != 0) {
+					if (coluna_X + j - 1 < 0) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+		
+	private boolean podeDir() {
+		for (int i = 0; i < formato.length; i++) {
+			for (int j = 0; j < formato[i].length; j++) {
+				if (formato[i][j] != 0) {
+					if (coluna_X + j + 1 > 9) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	public boolean moverBaixo() {
+		if (podeDescer()) {
+			this.linha_Y++;
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public void moverEsq() {
-		this.coluna_X -= 1;
+		if (podeEsq())
+			this.coluna_X -= 1;
 	}
 
 	public void moverDir() {
-		this.coluna_X++;
+		if (podeDir())
+			this.coluna_X++;
 	}
-
-	/*public static Color getColorTetraminos(int tipo) {
-		switch (tipo) {
-			case 1: return Color.MAGENTA;
-			case 2: return Color.BLUE;
-			case 3: return Color.BLACK;
-			case 4: return Color.RED;
-			case 5: return Color.GREEN;
-			case 6: return Color.WHITE;
-			default: return null;
-		}
-	}*/
 
 	public void bloco3D(Graphics g, int x, int y, Color base, int tam_cel) {
 		Color claro = base.brighter().brighter(); // luz
@@ -149,4 +245,16 @@ public class Tetramino {
 			}
 		}
 	}
+
+	/*public static Color getColorTetraminos(int tipo) {
+		switch (tipo) {
+			case 1: return Color.MAGENTA;
+			case 2: return Color.BLUE;
+			case 3: return Color.BLACK;
+			case 4: return Color.RED;
+			case 5: return Color.GREEN;
+			case 6: return Color.WHITE;
+			default: return null;
+		}
+	}*/
 }

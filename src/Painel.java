@@ -10,11 +10,18 @@ public class Painel extends JPanel implements KeyListener {
 	private final int TAM_CEL = 30;
 	private final int ALTURA_TELA = 600;
 	private final int LARGURA_TELA = 300;
+	int[][] piece;
+	int[][] matrix = new int[ALTURA_TELA / TAM_CEL][LARGURA_TELA / TAM_CEL];
 
 	private Tetramino bloco = new Tetramino();
 	Timer timer = new Timer(500, e -> {
-		bloco.moverBaixo();
-		repaint();
+		if(bloco.moverBaixo()) {
+			repaint();
+		} else {
+			carimbar();
+			bloco = new Tetramino();
+			repaint();
+		}
 	});
 
 	public Painel() {
@@ -28,6 +35,7 @@ public class Painel extends JPanel implements KeyListener {
 	protected void paintComponent(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paintComponent(g);
+		
 		//Desenho da grade do tetris em cinza claro
 		g.setColor(Color.LIGHT_GRAY);
 		for (int i = 0; i <= 10; i++) {
@@ -36,8 +44,18 @@ public class Painel extends JPanel implements KeyListener {
 		for (int i = 0; i <= 20; i++) {
 			g.drawLine(0, i * TAM_CEL, LARGURA_TELA, i * TAM_CEL);
 		}
+		
 		//Desenho Tetramino
 		bloco.desenhar(g, TAM_CEL);
+		
+		//Desenho dos blocos carimbados
+		for (int i = 0; i < matrix.length; i++) {
+    		for (int j = 0; j < matrix[i].length; j++) {
+        		if (matrix[i][j] != 0) {
+            		bloco.bloco3D(g, j * TAM_CEL, i * TAM_CEL, Color.DARK_GRAY, TAM_CEL);
+        		}
+    		}
+		}
 	}
 
 	public void keyTyped(KeyEvent e) {}
@@ -53,5 +71,18 @@ public class Painel extends JPanel implements KeyListener {
 			bloco.moverEsq();
 		}
 		repaint();
+	}
+
+	private void carimbar() {
+		piece = bloco.getFormato();
+		int lin = bloco.getLinhaY();
+		int col = bloco.getColunaX();
+		for (int i = 0; i < piece.length; i++) {
+			for (int j = 0; j < piece[i].length; j++) {
+				if (piece[i][j] != 0) {
+					matrix[lin + i][col + j] = piece[i][j];
+				}
+			}
+		}
 	}
 }
