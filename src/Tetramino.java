@@ -129,11 +129,11 @@ public class Tetramino {
 
 	public Color getColor() {return cor;}
 
-	private boolean podeDescer() {
+	private boolean podeDescer(int[][] array) {
 		for (int i = 0; i < formato.length; i++) {
 			for (int j = 0; j < formato[i].length; j++) {
 				if (formato[i][j] != 0) {
-					if (linha_Y + i + 1 > 19) {
+					if ((linha_Y + i + 1 > 19) || (array[linha_Y + i + 1][coluna_X + j] != 0)) {
 						return false;
 					}
 				}
@@ -142,11 +142,11 @@ public class Tetramino {
 		return true;
 	}
 
-	private boolean podeEsq() {
+	private boolean podeEsq(int[][] array) {
 		for (int i = 0; i < formato.length; i++) {
 			for (int j = 0; j < formato[i].length; j++) {
 				if (formato[i][j] != 0) {
-					if (coluna_X + j - 1 < 0) {
+					if ((coluna_X + j - 1 < 0) || (array[linha_Y + i][coluna_X + j - 1] != 0)) {
 						return false;
 					}
 				}
@@ -155,11 +155,11 @@ public class Tetramino {
 		return true;
 	}
 		
-	private boolean podeDir() {
+	private boolean podeDir(int[][] array) {
 		for (int i = 0; i < formato.length; i++) {
 			for (int j = 0; j < formato[i].length; j++) {
 				if (formato[i][j] != 0) {
-					if (coluna_X + j + 1 > 9) {
+					if ((coluna_X + j + 1 > 9) || (array[linha_Y + i][coluna_X + j + 1] != 0)) {
 						return false;
 					}
 				}
@@ -168,8 +168,8 @@ public class Tetramino {
 		return true;
 	}
 
-	public boolean moverBaixo() {
-		if (podeDescer()) {
+	public boolean moverBaixo(int[][] array) {
+		if (podeDescer(array)) {
 			this.linha_Y++;
 			return true;
 		}
@@ -178,15 +178,26 @@ public class Tetramino {
 		}
 	}
 
-	public void moverEsq() {
-		if (podeEsq())
+	public void moverEsq(int[][] array) {
+		if (podeEsq(array))
 			this.coluna_X -= 1;
 	}
 
-	public void moverDir() {
-		if (podeDir())
+	public void moverDir(int[][] array) {
+		if (podeDir(array))
 			this.coluna_X++;
 	}
+
+	public int[][] rotation90(int[][] original) {
+	int[][] rotacionada = new int[original.length][original.length];
+	int tam = original.length;
+	for (int i = 0; i < tam; i++) {
+		for (int j = 0; j < original[i].length; j++) {
+			rotacionada[j][tam-1-i] = original[i][j];;
+		}
+	}
+	return rotacionada;
+}
 
 	public void bloco3D(Graphics g, int x, int y, Color base, int tam_cel) {
 		Color claro = base.brighter().brighter(); // luz

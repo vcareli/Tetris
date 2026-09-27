@@ -15,7 +15,7 @@ public class Painel extends JPanel implements KeyListener {
 
 	private Tetramino bloco = new Tetramino();
 	Timer timer = new Timer(500, e -> {
-		if(bloco.moverBaixo()) {
+		if(bloco.moverBaixo(matrix)) {
 			repaint();
 		} else {
 			carimbar();
@@ -64,11 +64,13 @@ public class Painel extends JPanel implements KeyListener {
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			bloco.moverBaixo();
+			bloco.moverBaixo(matrix);
+		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+			return;
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			bloco.moverDir();
+			bloco.moverDir(matrix);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			bloco.moverEsq();
+			bloco.moverEsq(matrix);
 		}
 		repaint();
 	}
