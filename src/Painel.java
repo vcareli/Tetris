@@ -66,7 +66,7 @@ public class Painel extends JPanel implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			bloco.moverBaixo(matrix);
 		} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-			return;
+			matrix = bloco.rotation90(matrix);
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			bloco.moverDir(matrix);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {

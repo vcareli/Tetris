@@ -133,7 +133,7 @@ public class Tetramino {
 		for (int i = 0; i < formato.length; i++) {
 			for (int j = 0; j < formato[i].length; j++) {
 				if (formato[i][j] != 0) {
-					if ((linha_Y + i + 1 > 19) || (array[linha_Y + i + 1][coluna_X + j] != 0)) {
+					if ((linha_Y +i > 19) || (coluna_X + j > 9) || (coluna_X + j < 0) || (array[linha_Y + i][coluna_X + j] != 0)) {
 						return false;
 					}
 				}
