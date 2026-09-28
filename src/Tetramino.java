@@ -129,11 +129,11 @@ public class Tetramino {
 
 	public Color getColor() {return cor;}
 
-	private boolean podeRodar(int[][] array) {
-		for (int i = 0; i < formato.length; i++) {
-			for (int j = 0; j < formato[i].length; j++) {
-				if (formato[i][j] != 0) {
-					if ((linha_Y +i > 19) || (coluna_X + j > 9) || (coluna_X + j < 0) || (array[linha_Y + i][coluna_X + j] != 0)) {
+	private boolean podeRodar(int[][] array, int[][] tabuleiro) {
+		for (int i = 0; i < array.length; i++) {
+			for (int j = 0; j < array[i].length; j++) {
+				if (array[i][j] != 0) {
+					if ((linha_Y +i > 19) || (coluna_X + j > 9) || (coluna_X + j < 0) || (tabuleiro[linha_Y + i][coluna_X + j] != 0)) {
 						return false;
 					}
 				}
@@ -201,16 +201,16 @@ public class Tetramino {
 			this.coluna_X++;
 	}
 
-	public int[][] rotation90(int[][] original) {
-	int[][] rotacionada = new int[original.length][original.length];
-	int tam = original.length;
+	public void rotation90(int[][] tabuleiro) {
+	int[][] rotacionada = new int[formato.length][formato.length];
+	int tam = formato.length;
 	for (int i = 0; i < tam; i++) {
-		for (int j = 0; j < original[i].length; j++) {
-			rotacionada[j][tam-1-i] = original[i][j];;
+		for (int j = 0; j < formato[i].length; j++) {
+			rotacionada[j][tam-1-i] = formato[i][j];;
 		}
 	}
-	if (podeRodar(rotacionada)) {return rotacionada;}
-	return original;
+	if (podeRodar(rotacionada, tabuleiro)) {formato = rotacionada;}
+	else {formato = original;}
 }
 
 	public void bloco3D(Graphics g, int x, int y, Color base, int tam_cel) {
