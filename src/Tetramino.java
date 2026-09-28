@@ -129,6 +129,19 @@ public class Tetramino {
 
 	public Color getColor() {return cor;}
 
+	private boolean podeRodar(int[][] array) {
+		for (int i = 0; i < formato.length; i++) {
+			for (int j = 0; j < formato[i].length; j++) {
+				if (formato[i][j] != 0) {
+					if ((linha_Y + i + 1 > 19) || (array[linha_Y + i + 1][coluna_X + j] != 0)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	private boolean podeDescer(int[][] array) {
 		for (int i = 0; i < formato.length; i++) {
 			for (int j = 0; j < formato[i].length; j++) {
@@ -196,7 +209,8 @@ public class Tetramino {
 			rotacionada[j][tam-1-i] = original[i][j];;
 		}
 	}
-	return rotacionada;
+	if (podeRodar(rotacionada)) {return rotacionada;}
+	return original;
 }
 
 	public void bloco3D(Graphics g, int x, int y, Color base, int tam_cel) {
