@@ -75,6 +75,27 @@ public class Painel extends JPanel implements KeyListener {
 		repaint();
 	}
 
+	private void apagarLinha(int lin) {
+		for (int j = 0; matrix[i].length; j++) {
+			matrix[lin][j] = 0;
+		}
+		
+	}
+
+	private void verificarLinhas() {
+		for (int i = 0; i < matrix.length; i++) {
+			int lin = 0;
+			for (int j = 0; j < matrix[i].length; j++) {
+				if (matrix[i][j] != 0) {
+					lin++;
+				}
+			}
+			if (lin == 10) {
+				apagarLinha(i);
+			}
+		}
+	}
+
 	private void carimbar() {
 		piece = bloco.getFormato();
 		int lin = bloco.getLinhaY();
@@ -86,5 +107,6 @@ public class Painel extends JPanel implements KeyListener {
 				}
 			}
 		}
+		verificarLinhas();
 	}
 }

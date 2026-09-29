@@ -210,7 +210,6 @@ public class Tetramino {
 		}
 	}
 	if (podeRodar(rotacionada, tabuleiro)) {formato = rotacionada;}
-	else {formato = original;}
 }
 
 	public void bloco3D(Graphics g, int x, int y, Color base, int tam_cel) {
