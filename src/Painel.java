@@ -147,10 +147,11 @@ public class Painel extends JPanel implements KeyListener {
 			gameOver = false;
 			score = 0;
 			tempo = 500;
+			timer.setDelay(tempo);
 			for (int i = 0; i < matrix.length; i++) {
 				matrix[i] = new int[10];
 			}
-			timer.setDelay(tempo);
+			bloco = new Tetramino();
 			timer.start();
 
 	}
