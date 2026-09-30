@@ -1,5 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.event.KeyEvent;
@@ -67,16 +70,76 @@ public class Painel extends JPanel implements KeyListener {
 		g.setFont(new Font("Arial", Font.BOLD, 18));
 		g.drawString("Score: " + score, 20, 30);
 
-		//Desenho do G. O.
-		if (gameOver) {
+		//Desenho do G. O. 
+		/*if (gameOver) {
 			g.setColor(Color.RED);
-			g.setFont(new Font("Arial", Font.BOLD, 30));
+			g.setFont(new Font("Arial", Font.BOLD, 40));
 			// Como medir a largura do texto "GAME OVER":
 			FontMetrics fm = g.getFontMetrics();
     		int larguraTexto = fm.stringWidth("GAME OVER");
 			int xCentro = (LARGURA_TELA - larguraTexto) / 2;
 			int yCentro = ALTURA_TELA / 2;
 			g.drawString("GAME OVER", xCentro, yCentro);
+		}*/
+		// Desenho do Game Over - Feito com ajuda
+		if (gameOver) {
+		    Graphics2D g2 = (Graphics2D) g.create();
+			// Suavização
+			g2.setRenderingHint(
+			RenderingHints.KEY_ANTIALIASING,
+			RenderingHints.VALUE_ANTIALIAS_ON
+			);
+			// Escurece o tabuleiro
+			g2.setColor(new Color(0, 0, 0, 180));
+			g2.fillRect(0, 0, LARGURA_TELA, ALTURA_TELA);
+			// Dimensões do painel
+			int painelLargura = 380;
+			int painelAltura = 200;
+			int painelX = (LARGURA_TELA - painelLargura) / 2;
+			int painelY = (ALTURA_TELA - painelAltura) / 2;
+			// Sombra do painel
+			g2.setColor(new Color(0, 0, 0, 200));
+			g2.fillRoundRect(painelX + 8, painelY + 8,painelLargura, painelAltura, 20, 20);
+			// Fundo do painel
+			g2.setColor(new Color(35, 35, 35));
+			g2.fillRoundRect(painelX, painelY, painelLargura, painelAltura, 20, 20);
+			// Borda
+			g2.setColor(Color.RED);
+			g2.setStroke(new BasicStroke(3));
+			g2.drawRoundRect(painelX, painelY, painelLargura, painelAltura, 20, 20);
+			// -------------------------
+			// GAME OVER
+			// -------------------------
+			String texto = "GAME OVER";
+			g2.setFont(new Font("Arial", Font.BOLD, 42));
+			FontMetrics fm = g2.getFontMetrics();
+			int textoX = painelX + (painelLargura - fm.stringWidth(texto)) / 2;
+			int textoY = painelY + 60;
+			// Sombra do texto
+			g2.setColor(Color.BLACK);
+			g2.drawString(texto, textoX + 3, textoY + 3);
+			// Texto
+			g2.setColor(Color.RED);
+			g2.drawString(texto, textoX, textoY);
+			// -------------------------
+			// SCORE
+			// -------------------------
+			String scoreTexto = "Score: " + score;
+			g2.setFont(new Font("Arial", Font.BOLD, 22));
+			fm = g2.getFontMetrics();
+			int scoreX = painelX + (painelLargura - fm.stringWidth(scoreTexto)) / 2;
+			g2.setColor(Color.WHITE);
+			g2.drawString(scoreTexto, scoreX, painelY + 105);
+			// -------------------------
+			// RECOMEÇAR
+			// -------------------------
+			String restart = "Pressione ENTER para jogar novamente";
+			g2.setFont(new Font("Arial", Font.PLAIN, 16));
+			fm = g2.getFontMetrics();
+			int restartX = painelX + (painelLargura - fm.stringWidth(restart)) / 2;
+			g2.setColor(Color.LIGHT_GRAY);
+			g2.drawString(restart, restartX, painelY + 155);
+			g2.dispose();
 		}
 	}
 
@@ -93,7 +156,7 @@ public class Painel extends JPanel implements KeyListener {
 			bloco.moverDir(matrix);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			bloco.moverEsq(matrix);
-		} else if (e.getKeyCode() == KeyEvent.VK_R) {
+		} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			restart();
 		}
 		repaint();
