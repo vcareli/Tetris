@@ -65,11 +65,11 @@ public class Painel extends JPanel implements KeyListener {
     		}
 		}
 
-		//Desenho da pontuacao
-		g.setColor(Color.GREEN);
-		g.setFont(new Font("Arial", Font.BOLD, 18));
+		//Desenho da SCORE
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Arial", Font.BOLD, 24));
 		g.drawString("Score: " + score, 20, 30);
-
+		
 		//Desenho do G. O. 
 		/*if (gameOver) {
 			g.setColor(Color.RED);
@@ -156,7 +156,7 @@ public class Painel extends JPanel implements KeyListener {
 			bloco.moverDir(matrix);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			bloco.moverEsq(matrix);
-		} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		} else if (e.getKeyCode() == KeyEvent.VK_ENTER && gameOver == true) {
 			restart();
 		}
 		repaint();
