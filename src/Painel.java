@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Dimension;
@@ -10,11 +12,14 @@ public class Painel extends JPanel implements KeyListener {
 	private final int TAM_CEL = 30;
 	private final int ALTURA_TELA = 600;
 	private final int LARGURA_TELA = 300;
+	private int tempo = 500;
+	private int score = 0;
+	private boolean gameOver = false;
 	int[][] piece;
 	int[][] matrix = new int[ALTURA_TELA / TAM_CEL][LARGURA_TELA / TAM_CEL];
 
 	private Tetramino bloco = new Tetramino();
-	Timer timer = new Timer(500, e -> {
+	Timer timer = new Timer(tempo, e -> {
 		if(bloco.moverBaixo(matrix)) {
 			repaint();
 		} else {
@@ -47,7 +52,7 @@ public class Painel extends JPanel implements KeyListener {
 		
 		//Desenho Tetramino
 		bloco.desenhar(g, TAM_CEL);
-		
+
 		//Desenho dos blocos carimbados
 		for (int i = 0; i < matrix.length; i++) {
     		for (int j = 0; j < matrix[i].length; j++) {
@@ -55,6 +60,23 @@ public class Painel extends JPanel implements KeyListener {
             		bloco.bloco3D(g, j * TAM_CEL, i * TAM_CEL, Color.DARK_GRAY, TAM_CEL);
         		}
     		}
+		}
+
+		//Desenho da pontuacao
+		g.setColor(Color.GREEN);
+		g.setFont(new Font("Arial", Font.BOLD, 18));
+		g.drawString("Score: " + score, 20, 30);
+
+		//Desenho do G. O.
+		if (gameOver) {
+			g.setColor(Color.RED);
+			g.setFont(new Font("Arial", Font.BOLD, 30));
+			// Como medir a largura do texto "GAME OVER":
+			FontMetrics fm = g.getFontMetrics();
+    		int larguraTexto = fm.stringWidth("GAME OVER");
+			int xCentro = (LARGURA_TELA - larguraTexto) / 2;
+			int yCentro = ALTURA_TELA / 2;
+			g.drawString("GAME OVER", xCentro, yCentro);
 		}
 	}
 
@@ -71,15 +93,22 @@ public class Painel extends JPanel implements KeyListener {
 			bloco.moverDir(matrix);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			bloco.moverEsq(matrix);
+		} else if (e.getKeyCode() == KeyEvent.VK_R) {
+			restart();
 		}
 		repaint();
 	}
 
 	private void apagarLinha(int lin) {
-		for (int j = 0; matrix[i].length; j++) {
-			matrix[lin][j] = 0;
+		for (int k = lin; k > 0; k--) {
+			matrix[k] = matrix[k -1];
+			score += 20;
 		}
-		
+		matrix[0] = new int[10];
+		tempo -= 5;
+		if (tempo >= 100) {
+			timer.setDelay(tempo);
+		} else {timer.setDelay(100);}
 	}
 
 	private void verificarLinhas() {
@@ -104,9 +133,25 @@ public class Painel extends JPanel implements KeyListener {
 			for (int j = 0; j < piece[i].length; j++) {
 				if (piece[i][j] != 0) {
 					matrix[lin + i][col + j] = piece[i][j];
+					if (lin + i == 0) {
+						timer.stop();
+						gameOver = true;
+					}
 				}
 			}
 		}
 		verificarLinhas();
+	}
+
+	private void restart() {
+			gameOver = false;
+			score = 0;
+			tempo = 500;
+			for (int i = 0; i < matrix.length; i++) {
+				matrix[i] = new int[10];
+			}
+			timer.setDelay(tempo);
+			timer.start();
+
 	}
 }
